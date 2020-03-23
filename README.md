@@ -1,2 +1,0 @@
-# config
-RICE personal scripts
