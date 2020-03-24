@@ -9,29 +9,44 @@ set $mod Mod4
 
 #=-=-=-=-=-=-=-  Fonts
 
+# Window titles
+font pango:URW Gothic Book 8
+
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
 font pango:URW Gothic Book 8
 
 
 
 #=-=-=-=-=-=-=- System
 
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
+# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
+# screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+
+# NetworkManager is the most popular way to manage wireless networks on Linux,
+# and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
 
 
 #=-=-=-=-=-=-=- Volume Control [PulseAudio]
 
-set $refresh_i3status killall -SIGUSR1 i3status
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# set $refresh_i3status killall -SIGUSR1 i3status
+# bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+# bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+# bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+# bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 
 
 #=-=-=-=-=-=-=-  Workspace
 
+# Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
 set $ws1 "1 "
@@ -82,10 +97,14 @@ bindsym $mod+n exec mousepad
 bindsym $mod+q exec firefox
 
 # kill focused window
-bindsym $mod+Shift+q kill
+bindsym Ctrl+q kill
 
 # start dmenu
 bindsym $mod+d exec dmenu_run -l 10 -nf "#ff3b3b" -nb "#3b0000" -sf black -sb orange -x 300 -y 250 -w 766
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
@@ -97,7 +116,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You sure you wanna exit the session mate?.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3 mate?' -B 'mhm' 'i3-msg exit'"
 
 
 
@@ -142,12 +161,12 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+# bindsym $mod+y focus child
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
-
         # These bindings trigger as soon as you enter the resize mode
+
         bindsym Left resize shrink width 10 px or 10 ppt
         bindsym Down resize grow height 10 px or 10 ppt
         bindsym Up resize shrink height 10 px or 10 ppt
@@ -165,6 +184,7 @@ mode "resize" {
 #-=-=-=-=-=-=- Application workspace assignment
 
 assign [class="firefox"] $ws3
+assign [class="Brave-browser"] $ws3
 assign [class="mousepad"] $ws2
 assign [class="minecraft-launcher"] $ws10
 assign [class="vlc"] $ws9
@@ -217,7 +237,12 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightnes
 
 #-=-=-=-=-=-=- Autostart scripts/programs
 
-exec ~/.config/i3/scripts/battery.sh
+# Hide mouse when typing
+exec --no-startup-id exec xbanish -i shift -i control -i mod1 -i mod4
+
+exec volumeicon
+exec_always feh --bg-scale /home/zola/Pictures/Wallpaper/wizard-vs-dragon.jpg
+exec_always watch -n 3600 /home/zola/.config/i3/scripts/battery.sh
 exec flameshot
 
 
@@ -230,3 +255,9 @@ bindsym $mod+Print		exec --no-startup-id dmenurecord
 bindsym $mod+Scroll_Lock	exec --no-startup-id "killall screenkey || screenkey"
 bindsym $mod+Delete		exec $stoprec
 bindsym XF86Launch1		exec --no-startup-id xset dpms force off
+
+
+
+#-=-=-=-=-=-=- Floating windows
+
+for_window [class="Lxappearance" instance="lxappearance"] floating enable
