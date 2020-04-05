@@ -5,11 +5,14 @@ gaps inner 5
 gaps outer 1
 set $mod Mod4
 
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
 
 
 #=-=-=-=-=-=-=-  Fonts
 
-font pango:URW Gothic Book 8
+font xft:URWGothic-Book 11
 
 
 
@@ -60,6 +63,10 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# navigate workspaces next/previous
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
 
 
 #=-=-=-=-=-=-=-  Keybindings
@@ -77,10 +84,6 @@ bindsym Ctrl+q kill
 
 # start dmenu
 bindsym $mod+d exec dmenu_run -l 10 -nf "#ff3b3b" -nb "#3b0000" -sf black -sb orange -x 300 -y 250 -w 766
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
@@ -206,8 +209,8 @@ bar {
 
 #-=-=-=-=-=-=-  Sreen brightness controls
 
-bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up 10'"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 5; notify-send 'brightness down 5'
 
 
 
@@ -217,9 +220,13 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightnes
 exec --no-startup-id exec xbanish -i shift -i control -i mod1 -i mod4
 
 exec volumeicon
-exec_always feh --bg-scale /home/zola/Pictures/Wallpaper/wizard-vs-dragon.jpg
-exec_always watch -n 3600 /home/zola/.config/i3/scripts/battery.sh
+exec_always feh --bg-scale /home/zolaun/Pictures/Wallpaper/wizard-vs-dragon.jpg
+exec_always watch -n 3600 /home/zolaun/.config/i3/scripts/battery.sh
 exec flameshot
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id pamac-tray
+exec --no-startup-id clipit
+exec --no-startup-id xautolock -time 10 -locker blurlock
 
 
 
@@ -236,4 +243,4 @@ bindsym XF86Launch1		exec --no-startup-id xset dpms force off
 
 #-=-=-=-=-=-=- Floating windows
 
-for_window [class="Lxappearance" instance="lxappearance"] floating enable
+for_window [class="Lxappearance"] floating enable sticky enable border normal
