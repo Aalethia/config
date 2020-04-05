@@ -1,3 +1,6 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
 # It is important that this file is edited as UTF-8.
 # The following line should contain a sharp s:
 # ß
@@ -14,14 +17,13 @@ general {
 # order += "disk /home"
 # order += "load"
 # order += "ethernet _first_"
-order += "tztime local"
 # order += "wireless wlan0"
 order += "disk /"
 order += "memory"
 order += "cpu_usage"
-order += "volume master"
+# order += "volume master"
 order += "battery all"
-order += "tztime riga"
+order += "tztime local"
 
 cpu_usage {
         format = " %usage "
@@ -70,7 +72,7 @@ memory {
 
 tztime local {
         # format = "%Y-%m-%d %H:%M:%S" https://strftime.org/
-        format = "%-I:%M                  "
+        format = "  %b%d | %-I:%M "
 }
 
 volume master {
@@ -84,8 +86,4 @@ volume master {
 wireless wlan0 {
         format_up = "W: (%quality at %essid, %bitrate) %ip"
         format_down = "W: DOWN"
-}
-
-tztime riga {
-	format=" %b%d "
 }
