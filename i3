@@ -1,8 +1,8 @@
 #=-=-=-=-=-=-=-  Basic Definitions
 
 for_window [class="^.*"] border pixel 0
-gaps inner 5
-gaps outer 1
+gaps inner 7
+gaps outer 3
 set $mod Mod4
 
 # switch to workspace with urgent window automatically
@@ -12,7 +12,7 @@ for_window [urgent=latest] focus
 
 #=-=-=-=-=-=-=-  Fonts
 
-font xft:URWGothic-Book 11
+font xft:FontAwesome 11
 
 
 
@@ -28,16 +28,16 @@ exec --no-startup-id nm-applet
 
 floating_modifier $mod
 
-set $ws1 "1 "
+set $ws1 "1 "
 set $ws2 "2 "
-set $ws3 "3 "
+set $ws3 "3 "
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9 "
-set $ws10 "10 "
+set $ws9 "9 "
+set $ws10 "10 "
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -73,9 +73,9 @@ bindsym $mod+Shift+Tab workspace prev
 
 #Applications shortcut
 bindsym $mod+Return exec gnome-terminal
-bindsym $mod+x exec i3lock -i Pictures/Wallpaper/rsz_chinred_city.png
+bindsym $mod+x exec blurlock
 bindsym $mod+e exec pcmanfm
-bindsym $mod+Shift+n exec mousepad .config/i3/config
+bindsym $mod+Shift+n exec mousepad .i3/config
 bindsym $mod+n exec mousepad
 bindsym $mod+q exec firefox
 
@@ -83,7 +83,11 @@ bindsym $mod+q exec firefox
 bindsym Ctrl+q kill
 
 # start dmenu
-bindsym $mod+d exec dmenu_run -l 10 -nf "#ff3b3b" -nb "#3b0000" -sf black -sb orange -x 300 -y 250 -w 766
+bindsym $mod+d exec dmenu_run -l 10 -nf "#ff3b3b" -nb "#360224" -sf "#890440" -sb "#ff0000" -x 300 -y 250 -w 766
+# There also is the (new) i3-dmenu-desktop which only displays applications
+# shipping a .desktop file. It is a wrapper around dmenu, so you need that
+# installed.
+# bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
@@ -96,7 +100,6 @@ bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3 mate?' -B 'mhm' 'i3-msg exit'"
-
 
 
 #=-=-=-=-=-=-=-  Window management
@@ -172,11 +175,11 @@ assign [class="vlc"] $ws9
 
 #-=-=-=-=-=-=- Color Scheme
 
-set $bg-color 	         #620000
-set $inactive-bg-color   #620000
-set $text-color          #b1ffff
-set $inactive-text-color #ff8b8b
-set $urgent-bg-color     #ffb2b2
+set $bg-color 	         #890440
+set $inactive-bg-color   #890440
+set $text-color          #e3dc03
+set $inactive-text-color #12ffa8
+set $urgent-bg-color     #ff0000
 
 # window colors
 #                       border              background         text                 indicator
@@ -209,8 +212,25 @@ bar {
 
 #-=-=-=-=-=-=-  Sreen brightness controls
 
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness up 10'"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 5; notify-send 'brightness down 5'
+bindsym XF86MonBrightnessUp exec "xbacklight -inc 10; notify-send 'brightness +10'"
+bindsym XF86MonBrightnessDown exec "xbacklight -dec 5; notify-send 'brightness -5'"
+
+
+
+
+#-=-=-=-=-=-=-  # mic settings
+
+# mute
+bindsym $mod+Ctrl+k exec "amixer set Capture nocap; notify-send 'mic mute'"
+
+# unmute
+bindsym $mod+Ctrl+l exec "amixer set Capture cap; notify-send 'mic unmute'"
+
+# increase volume
+bindsym $mod+l exec "amixer set Capture 5%+ ; notify-send 'mic +5'"
+
+# decrease
+bindsym $mod+k exec "amixer set Capture 5%- ; notify-send 'mic -5'"
 
 
 
@@ -220,14 +240,14 @@ bindsym XF86MonBrightnessDown exec "xbacklight -dec 5; notify-send 'brightness d
 exec --no-startup-id exec xbanish -i shift -i control -i mod1 -i mod4
 
 exec volumeicon
-exec_always feh --bg-scale /home/zolaun/Pictures/Wallpaper/wizard-vs-dragon.jpg
-exec_always watch -n 3600 /home/zolaun/.config/i3/scripts/battery.sh
+exec_always feh --bg-scale /run/media/newHome/Downloads/s7lyyv3g67fz.jpg
 exec flameshot
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
 exec --no-startup-id xautolock -time 10 -locker blurlock
-
+exec rm -R GPUCache  #cause why not?
+exec amixer set Capture nocap
 
 
 #-=-=-=-=-=-=- screenshots and recording
